@@ -18,7 +18,7 @@ client.connect((err) => {
   const productsCollection = client
     .db(`${process.env.DB_NAME}`)
     .collection(`${process.env.DB_COLLECTION}`);
-  
+
   const ordersCollection = client
     .db(`${process.env.DB_NAME}`)
     .collection(`${process.env.DB_ORDERS}`);
@@ -54,20 +54,16 @@ client.connect((err) => {
       });
   });
 
-   app.post('/addOrder', (req, res) => {
-     const order = req.body;
-     ordersCollection.insertOne(order).then((result) => {
-       res.send(result.insertedCount > 0);
-     });
-   });
-
+  app.post('/addOrder', (req, res) => {
+    const order = req.body;
+    ordersCollection.insertOne(order).then((result) => {
+      res.send(result.insertedCount > 0);
+    });
+  });
 });
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-app.listen(port, () => {
-  console.log(`Listening at http://localhost:${port}`);
-});
-
+app.listen(process.env.PORT || port);
